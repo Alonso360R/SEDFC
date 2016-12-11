@@ -1,0 +1,335 @@
+//created on: 17-nov-2016
+package computer
+
+//list any import classes here.
+import com.fisi.droolsweb.model.domain.*
+
+//declare any global variables here
+
+dialect "java"
+
+rule "Sonido 1"
+	when
+		computadora: Computadora( emiteSonido == 1, tipoSonido == 1 )
+	then
+		computadora.setProblema("Reiniciar el CMOS retirando y colocando la pila del BIOS");
+end
+
+rule "Sonido 2"
+	when 
+		computadora: Computadora( emiteSonido == 1, tipoSonido == 2 )
+	then
+		computadora.setProblema("Sacar y volver a colocar la memoria RAM en su ranura");	
+end
+
+rule "Sonido 3"
+	when 
+		computadora: Computadora( emiteSonido == 1, tipoSonido == 3 )
+	then
+		computadora.setProblema("Tarjeta de video mal colocada en su ranura");
+end
+
+rule "Sonido 4"
+	when 
+		computadora: Computadora( emiteSonido == 1, tipoSonido == 4 ) 
+	then
+		computadora.setProblema("Teclado mal conectado o teclas presionadas");
+end
+
+rule "Sonido 5"
+	when
+		computadora: Computadora( emiteSonido == 1, tipoSonido == 5 )
+	then
+		computadora.setProblema("BIOS no actualizada");
+end
+
+rule "Sonido 6"
+	when
+		computadora: Computadora( emiteSonido == 1, tipoSonido == 6 )
+	then
+		computadora.setProblema("Memoria RAM mal colocada en su ranura");
+end
+
+rule "Sonido 7"
+	when
+		computadora: Computadora( emiteSonido == 1, tipoSonido == 7 )
+	then
+		computadora.setProblema("Memoria RAM no se actualiza correctamente");
+end
+
+
+rule "Sonido 8" 
+	when
+		computadora: Computadora( emiteSonido == 1, tipoSonido == 8 )
+	then
+		computadora.setProblema("Procesador conectado incorrectamente");
+end
+
+rule "Sonido 9" 
+	when
+		computadora: Computadora( emiteSonido == 1, tipoSonido == 9 )
+	then
+		computadora.setProblema("Teclado mal conectado o teclas presionadas");
+end
+
+rule "Sonido 10" 
+	when
+		computadora: Computadora( emiteSonido == 1, tipoSonido == 10 )
+	then
+		computadora.setProblema("Tarjeta de video mal colocada");
+end
+
+rule "Sonido 11" 
+	when
+		computadora: Computadora( emiteSonido == 1, tipoSonido == 11 )
+	then
+		computadora.setProblema("Memoria RAM mal colocada en su ranura");
+end
+
+rule "Sonido 12" 
+	when
+		computadora: Computadora( emiteSonido == 1, tipoSonido == 12 )
+	then
+		computadora.setProblema("Cables de la fuente no estan colocados corectamnete a la placa madre");
+end
+
+rule "Sonido 13" 
+	when
+		computadora: Computadora( emiteSonido == 1, tipoSonido == 13 )
+	then
+		computadora.setProblema("Procesador sobrecalentado");
+end
+
+rule "Suministro placa"
+	when
+		computadora: Computadora( giraVentilador == 1, ledPrende == -1, configurado == 1, conectado == 1 )
+	then
+		computadora.setProblema("Placa malograda");
+end
+
+rule "Cables internos mal conectados"
+	when
+		computadora: Computadora( giraVentilador == 1, ledPrende == 1, configurado == 1, conectado == 1)
+	then
+		computadora.setProblema("Cables internos mal conectados");
+end
+
+rule "Fuente no funciona"
+	when
+		computadora: Computadora( giraVentilador == -1, configurado == 1, conectado == 1 )
+	then
+		computadora.setProblema("Fuente de alimentación dañada");
+end
+
+rule "Voltaje incorrecto"
+	when
+		computadora: Computadora( configurado == -1, conectado == 1 )
+	then
+		computadora.setProblema("Voltaje incorrecto: cambiarlo a 220V");
+end
+
+rule "PC no conectada"
+	when
+		computadora: Computadora( conectado == -1 )
+	then
+		computadora.setProblema("Cable de poder de la computadora desconectado");
+end
+
+rule "Sonido no conectado"
+	when
+		computadora: Computadora( sonidoConectado == -1 )
+	then
+		computadora.setProblema("No tiene un dispositivo de sonido conectado");
+end
+
+rule "Sonido conectado"
+	when
+		computadora: Computadora( sonidoConectado == 1 )
+	then
+		computadora.setProblema("El driver de sonido no está instalado");
+end
+
+rule "Red no linkea"
+	when
+		red: Red( linkea == -1 ) && computadora: Computadora(  )
+	then
+		computadora.setProblema("Cable de red mal conectado");
+end
+
+rule "No reconoce red"
+	when
+		red: Red( linkea == 1 , reconoce == -1) && computadora: Computadora(  )
+	then
+		computadora.setProblema("El driver de red no está instalado");
+end
+
+rule "Red no habilitada"
+	when
+		red: Red( linkea == 1, reconoce == 1, habilitada == -1 ) && computadora:Computadora(  )
+	then
+		computadora.setProblema("Tarjeta de red no habilitada. Habilítela");
+end
+
+rule "Problema conectividad"
+	when
+		red: Red( linkea == 1, reconoce == 1, habilitada == 1 ) && computadora:Computadora(  )
+	then
+		computadora.setProblema("Posible conflicto IP, comunicarse con el administrador de la red");
+end
+
+rule "Monitor no conectado"
+	when
+		computadora: Computadora( ) && monitor: Monitor( enciende == -1, conectado == -1 )
+	then
+		computadora.setProblema("Monitor desconectado. Conectarlo");
+end
+
+rule "Cable monitor no funciona"
+	when
+		computadora: Computadora(  ) && monitor: Monitor( enciende == -1, conectado == 1, funcionaCorriente == -1)
+	then
+		computadora.setProblema("Cable de corriente del monitor malogrado. Cambiarlo");
+end
+
+rule "Monitor descompuesto"
+	when
+		computadora: Computadora(  ) && monitor: Monitor( enciende == -1, conectado == 1, funcionaCorriente == 1 )
+	then
+		computadora.setProblema("Monitor descompuesto");
+end
+
+rule "VGA Desconectado"
+	when
+		computadora: Computadora(  ) && monitor: Monitor( vgaConectado == -1 )
+		//computadora: Computadora(  ) && monitor: Monitor( enciende == 1, vgaConectado == -1 )
+	then
+		computadora.setProblema("Cable VGA desconectado. Conectarlo");
+end
+
+rule "VGA No Funciona"
+	when
+		computadora: Computadora(  ) && monitor: Monitor( vgaConectado == 1, vgaFunciona == -1 )
+		//computadora: Computadora(  ) && monitor: Monitor( enciende == 1, vgaConectado == 1, vgaFunciona == -1 )
+	then
+		computadora.setProblema("Cable VGA malogrado. Cambiarlo");
+end
+
+rule "Video defectuosa" 
+	when
+		computadora: Computadora(  ) && monitor: Monitor( vgaConectado == 1, vgaFunciona == 1)
+		//computadora: Computadora(  ) && monitor: Monitor( enciende == 1, vgaConectado == 1, vgaFunciona == 1)
+	then
+		computadora.setProblema("Tarjeta de video defectuosa");
+end
+
+rule "Imagen 1"
+	when
+		computadora: Computadora(  ) && monitor: Monitor( hayImagen == 1, tipoCalidadImagen == 1 )
+	then
+		computadora.setProblema("Tarjeta de video dañada");
+end
+
+rule "Imagen 2"
+	when
+		computadora: Computadora(  ) && monitor: Monitor( hayImagen == 1, tipoCalidadImagen == 2)
+	then
+		computadora.setProblema("El cable VGA debe ser cambiado");
+end
+
+rule "Imagen 3"
+	when
+		computadora: Computadora(  ) && monitor: Monitor( hayImagen == 1, tipoCalidadImagen == 3 )
+	then
+		computadora.setProblema("El monitor está malogrado");
+end
+
+rule "No muestra mensaje error"
+	when
+		computadora: Computadora( enciende == 1, iniciaSO == -1, mensajeError == -1 ) && monitor: Monitor( hayImagen == 1, tipoCalidadImagen == 4 )
+	then
+		computadora.setProblema("El disco duro está malogrado");
+end
+
+rule "Mensaje error 1"
+	when
+		computadora: Computadora( enciende == 1, iniciaSO == -1, mensajeError == 1, tipoMensajeError == 1 ) && monitor: Monitor( hayImagen == 1, tipoCalidadImagen == 4 )
+	then
+		computadora.setProblema("La configuración de secuencia de booteo no incluye a la unidad de disco dura donde está instalado el SO");
+end
+
+rule "Mensaje error 2"
+	when
+		computadora: Computadora( enciende == 1, iniciaSO == -1, mensajeError == 1, tipoMensajeError == 2 ) && monitor: Monitor( hayImagen == 1, tipoCalidadImagen == 4 )
+	then
+		computadora.setProblema("Problema del disco duro. Desconecte y conecte de nuevo todos los cables del disco duro");
+end
+
+rule "Mensaje error 3"
+	when
+		computadora: Computadora( enciende == 1, iniciaSO == -1, mensajeError == 1, tipoMensajeError == 3 ) && monitor: Monitor( hayImagen == 1, tipoCalidadImagen == 4 )
+	then
+		computadora.setProblema("Memoria RAM mal colocada en su ranura");
+end
+
+rule "Mensaje error 5"
+	when
+		computadora: Computadora( enciende == 1, iniciaSO == -1, mensajeError == 1, tipoMensajeError == 5 ) && monitor: Monitor( hayImagen == 1, tipoCalidadImagen == 4 )
+	then
+		computadora.setProblema("Algun dispositivo de entrada está causando el fallo");
+end
+
+rule "Mensaje error 6"
+	when
+		computadora: Computadora( enciende == 1, iniciaSO == -1, mensajeError == 1, tipoMensajeError == 6 ) && monitor: Monitor( hayImagen == 1, tipoCalidadImagen == 4 )
+	then
+		computadora.setProblema("Algun dispositivo de salida está causando el fallo");
+end
+
+rule "Mensaje error 7"
+	when
+		computadora: Computadora( enciende == 1, iniciaSO == -1, mensajeError == 1, tipoMensajeError == 7 ) && monitor: Monitor( hayImagen == 1, tipoCalidadImagen == 4 )
+	then
+		computadora.setProblema("Algun hardware nuevo está causando el fallo");
+end
+
+rule "Mensaje error procesador 1"
+	when
+		computadora: Computadora( enciende == 1, iniciaSO == -1, mensajeError == 1, tipoMensajeError == 4, estadoProcesador == 1 ) && monitor: Monitor( hayImagen == 1, tipoCalidadImagen == 4 )
+	then
+		computadora.setProblema("Ventilador sucio. Limpiarlo");
+end
+
+rule "Mensaje error procesador 2"
+	when
+		computadora: Computadora( enciende == 1, iniciaSO == -1, mensajeError == 1, tipoMensajeError == 4, estadoProcesador == 2 ) && monitor: Monitor( hayImagen == 1, tipoCalidadImagen == 4 )
+	then
+		computadora.setProblema("Cables de alimentación mal conectados");
+end
+
+rule "Mensaje error procesador 3"
+	when
+		computadora: Computadora( enciende == 1, iniciaSO == -1, mensajeError == 1, tipoMensajeError == 4, estadoProcesador == 3 ) && monitor: Monitor( hayImagen == 1, tipoCalidadImagen == 4 )
+	then
+		computadora.setProblema("Problema con el socket del procesador");
+end
+
+rule "Pantalla azul"
+	when
+	 	computadora: Computadora( enciende == 1, iniciaSO == 1, pantallaAzul == 1, tipoProblemaIdentificado == 1 )
+	then
+		computadora.setProblema("La placa madre está dañada");
+end
+
+rule "Pantalla azul no"
+	when
+	 	computadora: Computadora( enciende == 1, iniciaSO == 1, pantallaAzul == -1 )
+	then
+		computadora.setProblema("La fuente está dañada");
+end
+
+rule "Driver video"
+	when
+		computadora: Computadora( enciende == 1, iniciaSO == 1, tipoProblemaIdentificado == 2 )
+	then
+		computadora.setProblema("Reinstalar el driver de vídeo");
+end
