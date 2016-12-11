@@ -243,8 +243,18 @@
 					<button class="btn btn-primary" id="btnSubmit">Obtener Diagnóstico</button>
 				</div>
 			</form>
+                        
+                        <%
+				String problema = (String)request.getAttribute("a1");
+				if(problema == null){
+                                    problema="";
+				}else{
+                                    problema = "Diagnostico: " + problema;
+                                }
+			%>
 
-			<input type="hidden" value="">
+                        <p><%= problema%></p>
+                        
 		</div>
 	</div>
 

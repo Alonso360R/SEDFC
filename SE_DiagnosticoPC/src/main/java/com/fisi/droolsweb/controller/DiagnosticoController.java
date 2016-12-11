@@ -46,6 +46,8 @@ public class DiagnosticoController extends HttpServlet {
 		DiagnosticoService service = new DiagnosticoService();
 		
 		computadora = service.miDiagnostico(computadora);
+                
+                request.setAttribute("a1", computadora.getProblema());
 
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
