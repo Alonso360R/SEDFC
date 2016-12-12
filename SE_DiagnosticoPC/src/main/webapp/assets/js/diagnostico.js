@@ -24,7 +24,7 @@ var imagenMonitorDiv = $('#imagenMonitorDiv');
 var vgaConectadoDiv = $('#vgaConectadoDiv');
 var vgaFuncionaDiv = $('#vgaFuncionaDiv');
 var sonidoConectadoDiv = $('#sonidoConectadoDiv');
-
+var problema = $('#problema');
 
 var submit = $('#btnSubmit');
 
@@ -372,6 +372,10 @@ $("input:radio[name='sonidoConectado']").on('click',function() {
 
 $("input:radio[name='habilitadaRed']").on('click',function() {
 	mostrar(submit);
+});
+
+$("input:radio").on('click',function(){
+	ocultar(problema);
 });
 
 function mostrar(div) {
